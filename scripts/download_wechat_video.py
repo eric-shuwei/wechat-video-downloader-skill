@@ -6,6 +6,7 @@ import argparse
 import json
 import mimetypes
 import os
+import shutil
 from pathlib import Path
 import re
 import sys
@@ -158,6 +159,26 @@ def unique_path(path: Path) -> Path:
     raise RuntimeError(f"cannot allocate a unique output path for {path}")
 
 
+def is_preview_safe_filename(filename: str) -> bool:
+    if not filename.lower().endswith(".mp4"):
+        return False
+    return bool(re.fullmatch(r"[A-Za-z0-9._-]+", filename))
+
+
+def build_preview_path(output_path: Path) -> Path:
+    if is_preview_safe_filename(output_path.name):
+        return output_path
+    return unique_path(output_path.parent / "wechat_video_preview.mp4")
+
+
+def ensure_preview_file(output_path: Path) -> Path:
+    preview_path = build_preview_path(output_path)
+    if preview_path == output_path:
+        return output_path
+    shutil.copy2(output_path, preview_path)
+    return preview_path
+
+
 def download_file(url: str, output_path: Path, timeout: int) -> tuple[int, str]:
     req = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "video/mp4,video/*,*/*"})
     tmp_path = output_path.with_suffix(output_path.suffix + ".part")
@@ -247,6 +268,7 @@ def main() -> int:
     if size <= 0:
         raise RuntimeError("downloaded file is empty")
 
+    preview_path = ensure_preview_file(output_path)
     guessed_type = mimetypes.guess_type(output_path.name)[0] or ""
     print_json({
         **resolved.meta,
@@ -254,6 +276,8 @@ def main() -> int:
         "quality_label": "下载原始视频" if args.quality == "raw" else "下载视频",
         "output_path": str(output_path),
         "output_path_abs": str(output_path.resolve()),
+        "preview_path": str(preview_path),
+        "preview_path_abs": str(preview_path.resolve()),
         "size_bytes": size,
         "content_type": content_type or guessed_type,
     })

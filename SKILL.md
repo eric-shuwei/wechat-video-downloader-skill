@@ -48,9 +48,15 @@ https://weixin.qq.com/sph/...
    python3 /path/to/wechat-video-downloader-skill/scripts/download_wechat_video.py 'WECHAT_CHANNELS_URL' --quality raw --out-dir outputs
    ```
 
-6. Read stdout JSON and use `output_path_abs` as the final local MP4 file path.
+6. Read stdout JSON. Use `preview_path_abs` for media preview when present; otherwise use `output_path_abs`.
 7. Verify the file exists and is non-empty. If `ffprobe` is available, optionally inspect duration/codecs.
-8. Return the local MP4 to the user. If the agent UI supports local media embedding, embed or link the absolute path; otherwise provide the absolute path.
+8. Return the local MP4 to the user. In Codex Desktop, always embed the video with an absolute-path Markdown media tag:
+
+   ```md
+   ![视频预览](/absolute/path/to/video.mp4)
+   ```
+
+   Use `preview_path_abs` for the embed when present. Do not use `file://` links as the primary result.
 
 ## CLI contract
 
@@ -102,6 +108,8 @@ Successful download output is JSON like:
   "quality_label": "下载原始视频",
   "output_path": "outputs/example_raw.mp4",
   "output_path_abs": "/absolute/path/outputs/example_raw.mp4",
+  "preview_path": "outputs/example_raw.mp4",
+  "preview_path_abs": "/absolute/path/outputs/example_raw.mp4",
   "size_bytes": 123456,
   "content_type": "video/mp4"
 }
@@ -111,12 +119,17 @@ Successful download output is JSON like:
 
 Use a terse result-only response by default.
 
-Success response shape:
+Success response shape for Codex Desktop:
 
 ```text
 已下载完成：{filename}（{size}，MP4，{resolution}，时长 {duration}）。
-{local_path_or_media_preview}
+
+![视频预览](/absolute/path/to/preview-safe-video.mp4)
+
+文件路径：`/absolute/path/to/preview-safe-video.mp4`
 ```
+
+Use `preview_path_abs` from the script output for the Markdown embed when present. The script creates a short preview-safe MP4 copy when the original filename may break Markdown rendering.
 
 Failure response shape:
 
@@ -130,6 +143,7 @@ Failure response shape:
 - Do not add extra explanations unless the user explicitly asks how the skill works.
 - Keep intermediate resolver/media details out of the user-facing response.
 - Save user-facing video files under `outputs/` by default when the current environment has such a convention.
+- For Codex Desktop, use `preview_path_abs` and embed it with `![视频预览](/absolute/path.mp4)` in the final response.
 - If download or parsing fails, report the concise error and ask for a fresh share link only when the error suggests expiry or invalid input.
 - Only download user-provided public or authorized content. Do not help bypass paywalls, DRM, private access, or platform restrictions.
 
