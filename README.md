@@ -12,7 +12,9 @@ Codex、Claude Code、Cursor 等支持 Skills 的 Agent 均可安装使用。
 
 ## 赞助商
 
-[useToken](https://token.offerya.cc)｜AI大模型中转站 赞助本项目，提供高性价比、稳定易接入的 Codex 等 Agent API 中转服务，支持 GPT-5.5、GPT-5.4、Claude Opus 4.8、Claude Opus 4.7 等模型能力，适合中小企业、程序员及日常工作使用。
+**[useToken](https://token.offerya.cc)｜AI大模型中转站**
+
+赞助本项目，提供高性价比、稳定易接入的 Codex 等 Agent API 中转服务，支持 GPT-5.5、GPT-5.4、Claude Opus 4.8、Claude Opus 4.7 等模型能力，适合中小企业、程序员及日常工作使用。
 
 UseToken 为本 Skill 用户提供特别优惠：在该网站注册，并在充值时填写优惠码 `eric-shuwei`，首次充值可享受 9 折优惠。
 
