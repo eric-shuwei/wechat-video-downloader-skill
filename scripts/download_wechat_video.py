@@ -175,7 +175,10 @@ def ensure_preview_file(output_path: Path) -> Path:
     preview_path = build_preview_path(output_path)
     if preview_path == output_path:
         return output_path
-    shutil.copy2(output_path, preview_path)
+    try:
+        os.link(output_path, preview_path)
+    except OSError:
+        shutil.copy2(output_path, preview_path)
     return preview_path
 
 
