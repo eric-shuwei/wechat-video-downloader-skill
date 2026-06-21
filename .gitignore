@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Local outputs
+outputs/
+*.part
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

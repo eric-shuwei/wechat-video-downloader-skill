@@ -1,0 +1,6 @@
+interface:
+  display_name: "WeChat Video Downloader Skill"
+  short_description: "Choose and download WeChat Channels videos locally."
+  default_prompt: "Use $wechat-video-downloader-skill to resolve this WeChat Channels link, ask me which version to download, then return the local MP4."
+policy:
+  allow_implicit_invocation: true
