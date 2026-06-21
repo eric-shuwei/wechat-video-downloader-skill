@@ -72,7 +72,7 @@ Agent 会先让你选择版本：
 
 ## 作者
 
-书伟是花生是 AI Native Coder、独立开发者、AI 自媒体博主。
+书伟是 AI Native Coder、独立开发者、AI 自媒体博主。
 
 提供企业 AI 落地服务，包括 Skill、Agent 定制。
 
