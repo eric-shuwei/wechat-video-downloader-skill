@@ -34,17 +34,17 @@ https://weixin.qq.com/sph/...
    ```text
    解析到了这个视频：{description}
    你要下载哪个版本？
-   1. 下载视频：网站默认版本，通常兼容性更好、文件更小
-   2. 下载原始视频：按网站“下载原始视频”逻辑获取，通常质量更高、文件更大
+   1. 标准版视频（推荐）：兼容性更好、文件更小，适合预览、转发和日常保存
+   2. 原始画质视频：尽量保留更高质量，文件通常更大，适合剪辑和归档
    ```
 
 5. After the user chooses, download the selected option:
 
    ```bash
-   # 用户选择“下载视频”
+   # 用户选择“标准版视频（推荐）”
    python3 /path/to/wechat-video-downloader-skill/scripts/download_wechat_video.py 'WECHAT_CHANNELS_URL' --quality standard --out-dir outputs
 
-   # 用户选择“下载原始视频”
+   # 用户选择“原始画质视频”
    python3 /path/to/wechat-video-downloader-skill/scripts/download_wechat_video.py 'WECHAT_CHANNELS_URL' --quality raw --out-dir outputs
    ```
 
@@ -94,8 +94,8 @@ Successful `--info` output is JSON like:
   "description": "...",
   "suggested_filename": "example.mp4",
   "choices": [
-    {"id": "standard", "label": "下载视频", "available": true},
-    {"id": "raw", "label": "下载原始视频", "available": true}
+    {"id": "standard", "label": "标准版视频（推荐）", "available": true},
+    {"id": "raw", "label": "原始画质视频", "available": true}
   ]
 }
 ```
@@ -105,7 +105,7 @@ Successful download output is JSON like:
 ```json
 {
   "quality": "raw",
-  "quality_label": "下载原始视频",
+  "quality_label": "原始画质视频",
   "output_path": "outputs/example_raw.mp4",
   "output_path_abs": "/absolute/path/outputs/example_raw.mp4",
   "preview_path": "outputs/example_raw.mp4",

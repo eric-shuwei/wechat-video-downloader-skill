@@ -39,14 +39,14 @@ class ResolvedVideo:
         return [
             {
                 "id": "standard",
-                "label": "下载视频",
-                "description": "网站默认播放/下载版本，通常兼容性更好、文件更小。",
+                "label": "标准版视频（推荐）",
+                "description": "兼容性更好、文件更小，适合预览、转发和日常保存。",
                 "available": bool(self.standard_url),
             },
             {
                 "id": "raw",
-                "label": "下载原始视频",
-                "description": "按网站“下载原始视频”逻辑获取，通常质量更高、文件更大。",
+                "label": "原始画质视频",
+                "description": "尽量保留更高质量，文件通常更大，适合剪辑和归档。",
                 "available": bool(self.raw_url),
             },
         ]
@@ -233,7 +233,7 @@ def main() -> int:
         "--quality",
         choices=("standard", "raw"),
         default="standard",
-        help="Download choice after user confirmation. standard=下载视频, raw=下载原始视频. Default: standard",
+        help="Download choice after user confirmation. standard=标准版视频, raw=原始画质视频. Default: standard",
     )
     parser.add_argument("--out-dir", default="outputs", help="Output directory. Default: outputs")
     parser.add_argument("--filename", default="", help="Optional output filename")
@@ -276,7 +276,7 @@ def main() -> int:
     print_json({
         **resolved.meta,
         "quality": args.quality,
-        "quality_label": "下载原始视频" if args.quality == "raw" else "下载视频",
+        "quality_label": "原始画质视频" if args.quality == "raw" else "标准版视频",
         "output_path": str(output_path),
         "output_path_abs": str(output_path.resolve()),
         "preview_path": str(preview_path),
